@@ -1,0 +1,105 @@
+\documentclass{beamer}
+\usetheme{kth}
+
+\usepackage[utf8]{inputenc}
+\usepackage[european]{circuitikz}
+\usepackage{tikz}
+    \usetikzlibrary{shapes, calc, intersections, positioning}
+\usepackage{pgfplots}
+    \pgfplotsset{compat=1.15}
+    \usepgfplotslibrary{groupplots,fillbetween}
+\usepackage{siunitx}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsfonts}
+\usepackage{subcaption}
+\usepackage{booktabs}
+\usepackage{multicol}
+
+\title{IL2239 - Course Project}
+\subtitle{Design of a SAR ADC}
+\author{J.~Altayó \and B.~Sunedahl}
+
+\begin{document}
+ 
+ \begin{frame}[plain, t]
+  \titlepage
+ \end{frame}
+ 
+ \begin{frame}{Outline}
+    \begin{multicols}{2}
+        \tableofcontents
+    \end{multicols}
+ \end{frame}
+ 
+ \section{Project Description}
+ 
+ \begin{frame}{Project Description}
+  \begin{itemize}
+   \item Use \texttt{itemize} a lot.
+   \item Use very short sentences or short phrases.
+  \end{itemize}
+ \end{frame}
+ 
+ \section{Roles and Responsibilities}
+ \section{Design Flow}
+ \section{System-level Design}
+ \subsection{Problem Statement}
+ \subsection{Proposed Solution}
+ \subsection{Verilog-AMS moddeling}
+ \subsubsection{Comparator}
+ \subsubsection{Successive Approximation Register}
+ \subsubsection{Digital-to-Analog Converter}
+ \subsection{Simulation Results}
+ \addtocontents{toc}{\newpage}
+ \section{Transistor-level Design}
+ \subsection{Comparator}
+ \subsection{Digital-to-Analog Converter}
+ \section{Layout}
+ \subsection{Comparator}
+ \begin{frame}{Layout I}{Comparator}
+  \begin{itemize}
+   \item Use \texttt{itemizzze} a lot.
+   \item Use \texttt{itemizzze} a lot.
+   \item Use \texttt{itemizzze} a lot.
+   \item Use \texttt{itemizzze} a lot.
+   \item Use \texttt{itemizzze} a lot.
+   \item Use \texttt{itemizzze} a lot.
+  \end{itemize}
+ \end{frame}
+ 
+ \subsection{Digital-to-Analog Converter}
+ \begin{frame}{Layout II}{Digital-to-Analog Converter I}
+    \begin{columns}
+    \begin{column}{0.40\linewidth}
+    To ensure good matching we used: 
+    \begin{itemize}
+        \item Common centroid technique
+        \item<2-> Base unit of half the capacitance
+        \item<3-> Dummy capacitors at the edges
+    \end{itemize}
+    \vspace{3em}
+    \end{column}
+    \begin{column}{0.60\linewidth}
+        \centering
+        \visible<4->{\input{tikz/cap_matrix.tex}}
+    \end{column}
+    \end{columns}
+ \end{frame}
+ 
+ \begin{frame}{Layout II}{Digital-to-Analog Converter II}
+     \centering
+     \includegraphics[height=.9\textheight]{img/layout}
+ \end{frame}
+ 
+ \section{Co-design}
+ \subsection{Simulations}
+ \section{Figures of Merit}
+ \section{Conclusions}
+ \begin{frame}{References}
+  \section{References}
+  \nocite{*}
+  \bibliographystyle{amsalpha}
+  \bibliography{references}
+ \end{frame}
+\end{document}
