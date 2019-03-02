@@ -1,13 +1,13 @@
 \documentclass{beamer}
-\usetheme{kth}
+%\usetheme{kth}
 
 \usepackage[utf8]{inputenc}
 \usepackage[european]{circuitikz}
 \usepackage{tikz}
-    \usetikzlibrary{shapes, calc, intersections, positioning}
+ \usetikzlibrary{shapes, calc, intersections, positioning}
 \usepackage{pgfplots}
-    \pgfplotsset{compat=1.15}
-    \usepgfplotslibrary{groupplots,fillbetween}
+ \pgfplotsset{compat=1.15}
+ \usepgfplotslibrary{groupplots,fillbetween}
 \usepackage{siunitx}
 \usepackage{amsmath}
 \usepackage{amssymb}
@@ -15,41 +15,170 @@
 \usepackage{subcaption}
 \usepackage{booktabs}
 \usepackage{multicol}
+\usepackage{minted}
+
+\newcommand*{\subb}[1]{\ensuremath{_{\mathrm{#1}}}}
+\newcommand*{\supp}[1]{\ensuremath{^{\mathrm{#1}}}}
+\renewcommand*{\j}{\ensuremath{{\mathrm{j}}}}
+
+\addtobeamertemplate{navigation symbols}{}{%
+ \usebeamerfont{footline}%
+ \usebeamercolor[fg]{footline}%
+ \hspace{1em}%
+ \raisebox{1.2pt}[0pt][0pt]{\insertframenumber/\inserttotalframenumber}
+}
 
 \title{IL2239 - Course Project}
 \subtitle{Design of a SAR ADC}
 \author{J.~Altayó \and B.~Sunedahl}
+\date{March of 2019}
 
 \begin{document}
- 
  \begin{frame}[plain, t]
   \titlepage
  \end{frame}
  
  \begin{frame}{Outline}
-    \begin{multicols}{2}
-        \tableofcontents
-    \end{multicols}
- \end{frame}
+  \begin{multicols}{2}
+   \tableofcontents
+  \end{multicols}
+  \end{frame}
  
  \section{Project Description}
- 
  \begin{frame}{Project Description}
+  Design of a single-ended SAR ADC with the following specifications.
   \begin{itemize}
-   \item Use \texttt{itemize} a lot.
-   \item Use very short sentences or short phrases.
+   \item Comparator clock frequency: \SI{100}{\MHz}
+   \item SNDR \textgreater\ 28 dB and SFDR \textgreater\ 37 dB
+   \item Technology: 150 nm CMOS
+   \item Supply voltage: 1.8 V
+   \item Input amplitude ($V\subb{in}$): \SI{0.5}{\volt_{pp}}
+   \item Input common-mode voltage: $0 \geq V\subb{in,cm} \geq 1.8$ V
+   \item Voltage reference: $V\subb{ref} \leq 1.8$ V
+   \item Switghing enegy below 30 pJ for $V\subb{in}=300$ mV
   \end{itemize}
  \end{frame}
  
  \section{Roles and Responsibilities}
+ \begin{frame}{Roles and Responsibilities}
+  \begin{columns}
+   \begin{column}{0.5\textwidth}
+    Jordi:
+    \begin{itemize}
+     \item Comparator
+     \item Successive Approximation Register
+     \item Comparator Layout
+    \end{itemize}
+   \end{column}
+   \begin{column}{0.5\textwidth}
+    Björn:
+    \begin{itemize}
+     \item Digital-to-Analog Converter
+     \item Sample \& Hold
+     \item DAC Layout
+    \end{itemize}
+   \end{column}
+  \end{columns}
+ \end{frame}
  \section{Design Flow}
+ \begin{frame}{Design Flow}
+  %A classical V-Moddel approach:
+  We used a top-down design approach:
+  \vspace{2em}
+  \begin{enumerate}
+   \item System-level design
+   \item Behavioral moddeling using Verilog-AMS
+   \item Transistor level mddeling
+   \item Layout
+  \end{enumerate}
+  \vspace{2em}
+  \visible<2->{Co-simulations where also used to test individual blocks functionality}
+%  \begin{center}
+%   \resizebox{\textwidth}{!}{\input{tikz/V.tex}}
+%  \end{center}
+ \end{frame}
+
  \section{System-level Design}
  \subsection{Problem Statement}
+ \begin{frame}
+  {System-level Design I}{Problem Statement}
+  The basic block diagram of a SAR ADC looks as follows
+
+  \vspace*{2em}
+  \resizebox{\textwidth}{!}{\input{tikz/sar}}
+ \end{frame}
  \subsection{Proposed Solution}
+ \begin{frame}
+  {System-level Design II}{Proposed Solution}
+  We choosed to use the following topology:
+  \vspace{1em}
+  \begin{itemize}
+   \item Comparator: \alert{Strong ARM Latch}
+    \begin{itemize}
+     \item[--] Reduced power consumption 
+     \item[--] Fast operation
+     \item[--] Small area
+    \end{itemize}
+   \item<2-> DAC: \alert{Charge redistribution weighted capacitors}
+    \begin{itemize}
+     \item[--] Suitable for CMOS technology
+     \item[--] Integrates the Sample \& Hold
+    \end{itemize}
+  \end{itemize}
+ \end{frame}
  \subsection{Verilog-AMS moddeling}
  \subsubsection{Comparator}
- \subsubsection{Successive Approximation Register}
+ \begin{frame}[fragile]{System-level Design III}{Verilog-AMS moddeling}
+  Comparator moddeling:
+  \begin{minted}%{verilog}
+   [
+    frame=lines,
+    framesep=2mm,
+    baselinestretch=1.2,
+    fontsize=\footnotesize,
+    linenos
+   ]{verilog}
+always @(posedge CLK) begin
+    #5
+    outn = 0; outp = 0;
+end
+always @(negedge CLK) begin
+  if(V(inp) > V(inn)) begin
+    #50
+    outp = 1; outn = 0;
+  end else begin
+    #50
+    outp = 0; outn = 1;
+  end
+end
+  \end{minted}
+  Some delay was added to the behavioral moddel.
+ \end{frame}
+
  \subsubsection{Digital-to-Analog Converter}
+ \begin{frame}[fragile]{System-level Design III}{Verilog-AMS moddeling}
+  Digital-to-Analog Converter moddeling:
+  \begin{minted}%{verilog}
+   [
+    frame=lines,
+    framesep=2mm,
+    baselinestretch=1.2,
+    fontsize=\footnotesize,
+    linenos
+   ]{verilog}
+analog begin
+  always @(posedge CLK) begin
+    for(i=0, i < 5, i++) begin
+      result += input[5-i] * Vref/5;
+    end
+    V(out) <+ transition(result, 1ns, 0.1ns, 0.1ns)
+  end
+end
+  \end{minted}
+ \end{frame}
+ \subsubsection{Successive Approximation Register}
+ \begin{frame}{System-level Design III}{Verilog-AMS moddeling}
+ \end{frame}
  \subsection{Simulation Results}
  \addtocontents{toc}{\newpage}
  \section{Transistor-level Design}
@@ -89,13 +218,16 @@
  
  \begin{frame}{Layout II}{Digital-to-Analog Converter II}
      \centering
-     \includegraphics[height=.9\textheight]{img/layout}
+     \includegraphics[height=.8\textheight]{img/layout}
  \end{frame}
  
  \section{Co-design}
  \subsection{Simulations}
  \section{Figures of Merit}
+ \begin{frame}{Figures of Merit}
+ \end{frame}
  \section{Conclusions}
+
  \begin{frame}{References}
   \section{References}
   \nocite{*}
