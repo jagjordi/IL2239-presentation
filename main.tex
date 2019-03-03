@@ -36,6 +36,7 @@
 \date{March of 2019}
 
 \begin{document}
+ \section*{}
  \begin{frame}[plain, t]
   \titlepage
  \end{frame}
@@ -44,8 +45,7 @@
   \begin{multicols}{2}
    \tableofcontents
   \end{multicols}
-  \end{frame}
- 
+ \end{frame}
  \section{Project Description}
  \begin{frame}{Project Description}
   Design of a single-ended SAR ADC with the following specifications.
@@ -55,9 +55,9 @@
    \item Technology: 150 nm CMOS
    \item Supply voltage: 1.8 V
    \item Input amplitude ($V\subb{in}$): \SI{0.5}{\volt_{pp}}
-   \item Input common-mode voltage: $0 \geq V\subb{in,cm} \geq 1.8$ V
+   \item Input common-mode voltage: $0 \leq V\subb{in,cm} \leq 1.8$ V
    \item Voltage reference: $V\subb{ref} \leq 1.8$ V
-   \item Switghing enegy below 30 pJ for $V\subb{in}=300$ mV
+   \item Switching enegy below 30 pJ for $V\subb{in}=300$ mV
   \end{itemize}
  \end{frame}
  
@@ -89,7 +89,7 @@
   \begin{enumerate}
    \item System-level design
    \item Behavioral modeling using Verilog-AMS
-   \item Transistor level mddeling
+   \item Transistor level modeling
    \item Layout
   \end{enumerate}
   \vspace{2em}
@@ -98,6 +98,18 @@
 %   \resizebox{\textwidth}{!}{\input{tikz/V.tex}}
 %  \end{center}
  \end{frame}
+ 
+ \AtBeginSection[]{
+  \begin{frame}{Outline}
+   \begin{multicols}{2}
+    \tableofcontents[
+     sectionstyle=show/shaded,
+     subsectionstyle=show/show/shaded,
+     subsubsectionstyle=show/show/show/shaded
+    ]
+   \end{multicols}
+  \end{frame}
+ }
 
  \section{System-level Design}
  \subsection{Problem Statement}
@@ -112,7 +124,7 @@
  \subsection{Proposed Solution}
  \begin{frame}
   {System-level Design II}{Proposed Solution}
-  We choosed to use the following topology:
+  The following topology was used:
   \vspace{1em}
   \begin{itemize}
    \item Comparator: \alert{Strong ARM Latch}
@@ -125,6 +137,12 @@
     \begin{itemize}
      \item[--] Suitable for CMOS technology
      \item[--] Integrates the Sample \& Hold
+    \end{itemize}
+   \item<3-> SAR: \alert{Successive Approximation Register}
+    \begin{itemize}
+     \item[--] Integrates controls for Sample \& Hold
+     \item[--] Implemented as 7 state FSM
+     \item[--] Verilog model
     \end{itemize}
   \end{itemize}
  \end{frame}
@@ -180,7 +198,7 @@ end
  \end{frame}
  \subsubsection{Successive Approximation Register}
  \begin{frame}{System-level Design III}{Behavioral Modeling III}
-  SAR Algorithm
+  SAR algorithm: binary search\hspace*{1em}
   \begin{columns}
    \begin{column}{0.5\textwidth}
     \tikzexternaldisable
@@ -188,7 +206,7 @@ end
     \resizebox{!}{0.7\textheight}{\input{tikz/sar_algorith}}
    \end{column}
    \begin{column}{0.5\textwidth}
-    Assume $V\subb{in}=\SI{0.7}{\V}$ and $V\subb{ref}=\SI{1}{\V}$\vspace{1em}
+    Assume $V\subb{in}=\SI{0.7}{\V}$, $V\subb{ref}=\SI{1}{\V}$ and 4 bits\vspace{1em}
     \begin{enumerate}
      \item<2-> $V\subb{in} \overset{?}{\ge} \frac{V\subb{ref}}{2}$ {\color{green}\checkmark}
      \item<3-> $V\subb{in} \overset{?}{\ge} \frac{3V\subb{ref}}{4}$ {\color{red}\text{\sffamily X}}
@@ -204,24 +222,33 @@ end
  \section{Transistor-level Design}
  \subsection{Comparator}
  \begin{frame}{Transistor-level Design I}{Comparator}
-  
+  Strong ARM Latch topology
+
+  \includegraphics[width=\textwidth]{img/comp_sch}
  \end{frame}
  \subsection{Digital-to-Analog Converter}
  \begin{frame}{Transistor-level Design II}{Digital-to-Analog Converter}
-  
+  \centering
+  \makebox[\textwidth][c]{\includegraphics[width=1.3\textwidth]{img/dac_sch}}
  \end{frame}
 %\addtocontents{toc}{\newpage}
  \section{Layout}
  \subsection{Comparator}
  \begin{frame}{Layout I}{Comparator}
-  \begin{itemize}
-   \item Use \texttt{itemizzze} a lot.
-   \item Use \texttt{itemizzze} a lot.
-   \item Use \texttt{itemizzze} a lot.
-   \item Use \texttt{itemizzze} a lot.
-   \item Use \texttt{itemizzze} a lot.
-   \item Use \texttt{itemizzze} a lot.
-  \end{itemize}
+  \includegraphics[width=\textwidth]{img/comparator_layout}
+
+  \begin{columns}
+   \begin{column}{0.5\textwidth}
+    \begin{itemize}
+     \item Common centroid for the differential input pair
+    \end{itemize}
+   \end{column}
+   \begin{column}{0.5\textwidth}
+    \begin{itemize}
+     \item<2-> Guard ring around sensitive high impedance nodes
+    \end{itemize}
+   \end{column}
+  \end{columns}
  \end{frame}
  
  \subsection{Digital-to-Analog Converter}
@@ -231,7 +258,7 @@ end
     To ensure good matching we used: 
     \begin{itemize}
         \item Common centroid technique
-        \item<2-> Base unit of half the capacitance
+        \item<2-> Base unit of half the minmum capacitance
         \item<3-> Dummy capacitors at the edges
     \end{itemize}
     \vspace{3em}
@@ -239,14 +266,14 @@ end
     \begin{column}{0.60\linewidth}
         \centering
         \tikzsetnextfilename{cap_matrix}
-        \visible<4->{\input{tikz/cap_matrix.tex}}
+        \input{tikz/cap_matrix.tex}
     \end{column}
     \end{columns}
  \end{frame}
  
  \begin{frame}{Layout II}{Digital-to-Analog Converter II}
      \centering
-     \includegraphics[height=.8\textheight]{img/layout}
+     \includegraphics[height=.8\textheight]{img/cap_layout}
  \end{frame}
  
  \section{Simulations}
@@ -268,7 +295,10 @@ end
  \begin{frame}{Simulations III}{Spectrum}
   \centering
   \includegraphics[width=\textwidth]{img/fft}
+  Input frequency: \SI{1.3}{\MHz}
  \end{frame}
+ \AtBeginSection[]{}
+ 
  \section{Figures of Merit}
  \begin{frame}{Figures of Merit}
   \centering
@@ -285,9 +315,17 @@ end
   \end{tabular}
  \end{frame}
  \section{Conclusions}
+ \begin{frame}{Conclusions}
+  We were able to
+  \begin{itemize}
+   \item Work on a state-of-the-art ADC topology
+   \item<2-> Learn behavioral modeling techniques
+   \item<3-> Hands-on experience with charge redistribution circuits
+  \end{itemize}
+ \end{frame}
 
+ \section{References}
  \begin{frame}{References}
-  \section{References}
   \nocite{*}
   \bibliographystyle{amsalpha}
   \bibliography{references}
