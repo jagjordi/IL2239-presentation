@@ -4,10 +4,12 @@
 \usepackage[utf8]{inputenc}
 \usepackage[european]{circuitikz}
 \usepackage{tikz}
- \usetikzlibrary{shapes, calc, intersections, positioning}
+ \usetikzlibrary{shapes, calc, intersections, positioning, external}
+ \tikzexternalize[prefix=img/extern/]
 \usepackage{pgfplots}
  \pgfplotsset{compat=1.15}
  \usepgfplotslibrary{groupplots,fillbetween}
+\usepackage{tikz-timing}
 \usepackage{siunitx}
 \usepackage{amsmath}
 \usepackage{amssymb}
@@ -82,12 +84,11 @@
  \end{frame}
  \section{Design Flow}
  \begin{frame}{Design Flow}
-  %A classical V-Moddel approach:
   We used a top-down design approach:
   \vspace{2em}
   \begin{enumerate}
    \item System-level design
-   \item Behavioral moddeling using Verilog-AMS
+   \item Behavioral modeling using Verilog-AMS
    \item Transistor level mddeling
    \item Layout
   \end{enumerate}
@@ -105,6 +106,7 @@
   The basic block diagram of a SAR ADC looks as follows
 
   \vspace*{2em}
+  \tikzsetnextfilename{sar}
   \resizebox{\textwidth}{!}{\input{tikz/sar}}
  \end{frame}
  \subsection{Proposed Solution}
@@ -126,10 +128,10 @@
     \end{itemize}
   \end{itemize}
  \end{frame}
- \subsection{Verilog-AMS moddeling}
+ \subsection{Behavioral Modeling}
  \subsubsection{Comparator}
- \begin{frame}[fragile]{System-level Design III}{Verilog-AMS moddeling}
-  Comparator moddeling:
+ \begin{frame}[fragile]{System-level Design III}{Behavioral Modeling I}
+  Comparator modeling:
   \begin{minted}%{verilog}
    [
     frame=lines,
@@ -152,12 +154,12 @@ always @(negedge CLK) begin
   end
 end
   \end{minted}
-  Some delay was added to the behavioral moddel.
+  Some delay was added to the behavioral model.
  \end{frame}
 
  \subsubsection{Digital-to-Analog Converter}
- \begin{frame}[fragile]{System-level Design III}{Verilog-AMS moddeling}
-  Digital-to-Analog Converter moddeling:
+ \begin{frame}[fragile]{System-level Design III}{Behavioral Modeling II}
+  Digital-to-Analog Converter modeling:
   \begin{minted}%{verilog}
    [
     frame=lines,
@@ -177,13 +179,38 @@ end
   \end{minted}
  \end{frame}
  \subsubsection{Successive Approximation Register}
- \begin{frame}{System-level Design III}{Verilog-AMS moddeling}
+ \begin{frame}{System-level Design III}{Behavioral Modeling III}
+  SAR Algorithm
+  \begin{columns}
+   \begin{column}{0.5\textwidth}
+    \tikzexternaldisable
+    \tikzsetnextfilename{sar_algorithm}
+    \resizebox{!}{0.7\textheight}{\input{tikz/sar_algorith}}
+   \end{column}
+   \begin{column}{0.5\textwidth}
+    Assume $V\subb{in}=\SI{0.7}{\V}$ and $V\subb{ref}=\SI{1}{\V}$\vspace{1em}
+    \begin{enumerate}
+     \item<2-> $V\subb{in} \overset{?}{\ge} \frac{V\subb{ref}}{2}$ {\color{green}\checkmark}
+     \item<3-> $V\subb{in} \overset{?}{\ge} \frac{3V\subb{ref}}{4}$ {\color{red}\text{\sffamily X}}
+     \item<4-> $V\subb{in} \overset{?}{\ge} \frac{5V\subb{ref}}{8}$ {\color{green}\checkmark}
+     \item<5-> $V\subb{in} \overset{?}{\ge} \frac{11V\subb{ref}}{16}$ {\color{green}\checkmark}
+    \end{enumerate}
+    \vspace{2em}
+    \visible<6->{Out = 0b1011 ($\frac{11V\subb{ref}}{16}$)}
+
+   \end{column}
+  \end{columns}
  \end{frame}
- \subsection{Simulation Results}
- \addtocontents{toc}{\newpage}
  \section{Transistor-level Design}
  \subsection{Comparator}
+ \begin{frame}{Transistor-level Design I}{Comparator}
+  
+ \end{frame}
  \subsection{Digital-to-Analog Converter}
+ \begin{frame}{Transistor-level Design II}{Digital-to-Analog Converter}
+  
+ \end{frame}
+%\addtocontents{toc}{\newpage}
  \section{Layout}
  \subsection{Comparator}
  \begin{frame}{Layout I}{Comparator}
@@ -211,6 +238,7 @@ end
     \end{column}
     \begin{column}{0.60\linewidth}
         \centering
+        \tikzsetnextfilename{cap_matrix}
         \visible<4->{\input{tikz/cap_matrix.tex}}
     \end{column}
     \end{columns}
@@ -221,10 +249,40 @@ end
      \includegraphics[height=.8\textheight]{img/layout}
  \end{frame}
  
- \section{Co-design}
- \subsection{Simulations}
+ \section{Simulations}
+ \subsection{Sinusoidal Stimulus}
+ \begin{frame}{Simulations I}{Sinusoidal Stimulus}
+  \centering
+  \tikzsetnextfilename{sinusoidal_conversion}
+  \resizebox{!}{0.8\textheight}{\input{tikz/sinusoidal-conversion}}
+ \end{frame}
+
+ \subsection{Ramp Stimulus}
+ \begin{frame}{Simulations II}{Ramp Stimulus}
+  \centering
+  \tikzsetnextfilename{ramp_conversion}
+  \resizebox{!}{0.8\textheight}{\input{tikz/ramp-conversion}}
+ \end{frame}
+
+ \subsection{Spectrum}
+ \begin{frame}{Simulations III}{Spectrum}
+  \centering
+  \includegraphics[width=\textwidth]{img/fft}
+ \end{frame}
  \section{Figures of Merit}
  \begin{frame}{Figures of Merit}
+  \centering
+  \begin{tabular}[]{cc}
+   \toprule
+   Sample rate & \SI{14.29}{\MHz}\\
+   ENOB & \num{4.78}\\
+   SNDR & \SI{30.55}{dB}\\
+   SFDR & \SI{38.16}{dB}\\
+   THD & \SI{1.44}{\percent}\\
+   INL & \alert{\SI{10.22}{\mV}}\\
+   DNL & \alert{\SI{8.32}{\mV}}\\
+   Energy per cycle & \SI{4.31}{\pico\joule}\\\bottomrule
+  \end{tabular}
  \end{frame}
  \section{Conclusions}
 
@@ -234,4 +292,4 @@ end
   \bibliographystyle{amsalpha}
   \bibliography{references}
  \end{frame}
-\end{document}
+\end{document} 
