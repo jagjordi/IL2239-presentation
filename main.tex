@@ -190,7 +190,7 @@ end
 analog begin
   always @(posedge CLK) begin
     for(i=0, i < 5, i++) begin
-      result += input[5-i] * Vref/5;
+      result += input[5-i] * Vref/(1<<i);
     end
     V(out) <+ transition(result, 1ns, 0.1ns, 0.1ns)
   end
@@ -225,12 +225,57 @@ end
  \begin{frame}{Transistor-level Design I}{Comparator}
   Strong ARM Latch topology
 
-  \includegraphics[width=\textwidth]{img/comp_sch}
+  \includegraphics[width=0.9\textwidth]{img/comp_sch}
  \end{frame}
  \subsection{Digital-to-Analog Converter}
- \begin{frame}{Transistor-level Design II}{Digital-to-Analog Converter}
+ \begin{frame}{Transistor-level Design II}{Digital-to-Analog Converter I}
   \centering
-  \makebox[\textwidth][c]{\includegraphics[width=1.3\textwidth]{img/dac_sch}}
+  \makebox[\textwidth][c]{\includegraphics[width=1.1\textwidth]{img/dac_sch}}
+ \end{frame}
+
+ \begin{frame}{Transistor-level Design II}{Digital-to-Analog Converter II}
+  Sample phase:
+  \vspace*{1em}
+  \tikzsetnextfilename{dac_sample}
+  \begin{center}
+   \input{tikz/dac_sample}
+  \end{center}
+ \end{frame}
+
+ \begin{frame}{Transistor-level Design II}{Digital-to-Analog Converter II}
+  Cycling phase:\hfill Input word: \alert{0b100}
+  \vspace*{1em}
+  \tikzsetnextfilename{dac_cycling}
+  \begin{center}
+   \input{tikz/dac_cycling}
+  \end{center}
+ \end{frame}
+
+ \begin{frame}{Transistor-level Design II}{Digital-to-Analog Converter II}
+  Equivalent circuit:\hfill Input word: \alert{0b100}
+  \vspace*{1em}
+  \tikzsetnextfilename{dac_equivalent}
+  \begin{center}
+   \input{tikz/dac_equivalent}
+  \end{center}
+ \end{frame}
+
+ \begin{frame}{Transistor-level Design II}{Digital-to-Analog Converter II}
+  Cycling phase:\hfill Input word: \alert{0b010}
+  \vspace*{1em}
+  \tikzsetnextfilename{dac_cycling2}
+  \begin{center}
+   \input{tikz/dac_cycling2}
+  \end{center}
+ \end{frame}
+
+ \begin{frame}{Transistor-level Design II}{Digital-to-Analog Converter II}
+  Equivalent circuit:\hfill Input word: \alert{0b010}
+  \vspace*{1em}
+  \tikzsetnextfilename{dac_equivalent2}
+  \begin{center}
+   \input{tikz/dac_equivalent2}
+  \end{center}
  \end{frame}
 %\addtocontents{toc}{\newpage}
  \section{Layout}

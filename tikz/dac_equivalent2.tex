@@ -1,0 +1,5 @@
+\begin{tikzpicture}
+ \draw (0,0) node[ground]{} to [C, l=$6C$] ++ (0,2) to [C, l=$2C$] ++ (0,2);
+ \draw (0,4) --++ (-3,0) to [european voltage source, v<=$V\subb{ref}$] ++ (0,-4) node [ground]{};
+ \draw (0,2) to[short,*-o] ++ (1,0) node[right] {$V\subb{out}=V\subb{cm}-V\subb{in}+\frac{V\subb{ref}}{4}$};
+\end{tikzpicture}

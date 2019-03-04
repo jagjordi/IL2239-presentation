@@ -1,0 +1,10 @@
+\begin{tikzpicture}
+ \draw (0,0) to [C, l=$4C$] ++ (0,2);
+ \draw (2,0) to [C, l=$2C$] ++ (0,2);
+ \draw (4,0) to [C, l=$C$] ++ (0,2);
+ \draw (6,0) to [C, l=$C$] ++ (0,2);
+ \draw (0,2) to [short, -*] ++ (2,0) to [short, -*] ++ (2,0) to [short, -*] ++ (2,0) to [short] ++ (2,0);
+ \draw (8,2) to [open, o-o, v^<=$V\subb{out}$] ++(0,-2) node [ground] {};
+ \draw (2,0) to [european voltage source, v<=$V\subb{ref}$] ++(0,-2) node [ground] {};
+ \draw (4,0) to [short, -*] ++ (2,0) node [ground] {} (0,0) node[ground]{};
+\end{tikzpicture}
