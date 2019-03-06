@@ -3,7 +3,7 @@
 %\usetheme{CambridgeUS}
 %\usecolortheme{beaver}
 \usepackage[utf8]{inputenc}
-\usepackage[european]{circuitikz}
+\usepackage[european, arrowmos]{circuitikz}
 \usepackage{tikz}
  \usetikzlibrary{shapes, calc, intersections, positioning, external}
  \tikzexternalize[prefix=img/extern/]
@@ -223,9 +223,9 @@ end
  \section{Transistor-level Design}
  \subsection{Comparator}
  \begin{frame}{Transistor-level Design I}{Comparator}
-  Strong ARM Latch topology
-
-  \includegraphics[width=0.9\textwidth]{img/comp_sch}
+  Strong ARM Latch topology\par\vspace{1em}
+  \resizebox{\textwidth}{!}{\centering\input{tikz/comp_sch}}
+  %\includegraphics[width=0.9\textwidth]{img/comp_sch}
  \end{frame}
  \subsection{Digital-to-Analog Converter}
  \begin{frame}{Transistor-level Design II}{Digital-to-Analog Converter I}
@@ -355,9 +355,9 @@ end
    SNDR & \SI{30.55}{dB}\\
    SFDR & \SI{38.16}{dB}\\
    THD & \SI{1.44}{\percent}\\
-   INL & \alert{\SI{10.22}{\mV}}\\
-   DNL & \alert{\SI{8.32}{\mV}}\\
-   Energy per cycle & \SI{4.31}{\pico\joule}\\\bottomrule
+   %INL & \alert{\SI{10.22}{\mV}}\\
+   %DNL & \alert{\SI{8.32}{\mV}}\\
+   Energy per cycle & \SI{4.02}{\pico\joule}\\\bottomrule
   \end{tabular}
  \end{frame}
  \section{Conclusions}
@@ -367,6 +367,7 @@ end
    \item Work on a state-of-the-art ADC topology
    \item<2-> Learn behavioral modeling techniques
    \item<3-> Hands-on experience with charge redistribution circuits
+   \item<4-> Gained knowledge about mixed-signal design and simulations
   \end{itemize}
  \end{frame}
 

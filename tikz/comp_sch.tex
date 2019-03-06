@@ -1,0 +1,42 @@
+\begin{tikzpicture}
+ \draw node[vcc]{} node[pmos, anchor=S] (M0){};
+ \draw (M0.D) --++ (-2,0) node[pmos, anchor=S] (M1){};
+ \draw (M0.D) to[short, *-] ++ (2,0)  node[pmos, xscale=-1, anchor=S] (M2){};
+ \draw (M1.D) --++ (0,-1) node[pmos, anchor=S, xscale=-1] (M3){};
+ \draw (M2.D) --++ (0,-1) node[pmos, anchor=S] (M4){};
+ \draw (M3.D) --++ (0,-1) node[nmos, anchor=D, xscale=-1] (M5){};
+ \draw (M4.D) --++ (0,-1) node[nmos, anchor=D] (M6){};
+ \draw (M3.G) -- ($(M4.D)-(1,0)$) to[short,-*] (M4.D);
+ \draw (M4.G) -- ($(M3.D)+(1,0)$) to[short,-*] (M3.D);
+ \draw (M5.G) -- ($(M6.D)-(1,0)$) to[short,-*] (M6.D);
+ \draw (M6.G) -- ($(M5.D)+(1,0)$) to[short,-*] (M5.D);
+ \draw (M2.G) |- (M2.D) coordinate (en) -- (en-|M1.G) to[open, o-o, v^=$V\subb{in}$] (M1.G);
+ \draw (M6.D) ++ (0,0.5) to[short, *-] ++(2,0) --++ (0,-0.5) node[nmos, anchor=D, xscale=-1] (M7) {};
+ \draw (M5.D) ++ (0,0.5) to[short, *-] ++(-2,0) --++ (0,-0.5) node[nmos, anchor=D] (M8) {};
+ \draw (M4.S) to[short, *-] ++(5,0) coordinate(aa) -- (aa|-M7.D) node[nmos, anchor=D, xscale=-1] (M9) {};
+ \draw (M3.S) to[short, *-] ++(-5,0) coordinate(aaa) -- (aaa|-M7.D) node[nmos, anchor=D] (M10) {};
+ \draw (M1.D) ++ (0,-0.5) to[short, *-] ++(1,0) coordinate (op);
+ \draw (M2.D) ++ (0,-0.5) to[short, *-] ++(-1,0) coordinate (on);
+ \draw (op) to[open, o-o, v=$V\subb{out}$] (on);
+ \draw (M9.S) --++ (0,-0.5) (M5.S) --++ (0,-0.5) (M6.S) --++ (0,-0.5) (M7.S) --++ (0,-0.5) (M8.S) --++ (0,-0.5) (M10.S) --++ (0,-0.5);
+ \draw (M10.S) ++ (0,-0.5) to[short,-*] ++(3,0) to[short,-*] ++(2,0) to[short,-*] ++(4,0) to[short,-*] ++(2,0) to[short] ++(3,0);
+ \draw ($0.5*(M5.S) + 0.5*(M6.S)$) ++ (0,-0.5) node[ground] {} node[circ]{};
+
+ \draw (M0) ++ (0.3,0) node[]{M0}; 
+ \draw (M1) ++ (0.3,0) node[]{M1}; 
+ \draw (M2) ++ (-0.3,0) node[]{M2}; 
+ \draw (M3) ++ (-0.3,0) node[]{M3}; 
+ \draw (M4) ++ (0.3,0) node[]{M4}; 
+ \draw (M5) ++ (-0.3,0) node[]{M5}; 
+ \draw (M6) ++ (0.3,0) node[]{M6}; 
+ \draw (M7) ++ (-0.3,0) node[]{M7}; 
+ \draw (M8) ++ (0.3,0) node[]{M8}; 
+ \draw (M9) ++ (-0.3,0) node[]{M9}; 
+ \draw (M10) ++ (0.3,0) node[]{M10}; 
+
+ \draw (M0.G) node[left] {$\overline{\Phi}$};
+ \draw (M7.G) node[right] {$\Phi$};
+ \draw (M8.G) node[left]  {$\Phi$};
+ \draw (M9.G) node[right] {$\Phi$};
+ \draw (M10.G) node[left] {$\Phi$};
+\end{tikzpicture}
