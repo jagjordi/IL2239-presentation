@@ -1,0 +1,33 @@
+\begin{tikzpicture}
+ \draw (0,0) to[C,l=$4C$] ++(0,-2);
+ \draw (4,0) to[C,l=$2C$] ++(0,-2);
+ \draw (8,0) to[C,l=$C$] ++(0,-2);
+ \draw (12,0) to[C,l=$C$] ++(0,-2);
+
+ \draw (0,-2) --++ (-1,0) node[nmos,anchor=D,xscale=-1] (M1) {};
+ \draw (0,-2) to[short,*-] ++ (1,0) node[nmos,anchor=D,xscale=-1] (M2) {};
+ \draw (4,-2) --++ (-1,0) node[nmos,anchor=D,xscale=-1] (M3) {};
+ \draw (4,-2) to[short,*-] ++ (1,0) node[nmos,anchor=D,xscale=-1] (M4) {};
+ \draw (8,-2) --++ (-1,0) node[nmos,anchor=D,xscale=-1] (M5) {};
+ \draw (8,-2) to[short,*-] ++ (1,0) node[nmos,anchor=D,xscale=-1] (M6) {};
+ \draw (12,-2) --++ (-1,0) node[nmos,anchor=D,xscale=-1] (M7) {};
+ \draw (12,-2) to[short,*-] ++ (1,0) node[nmos,anchor=D,xscale=-1] (M8) {};
+ \draw (M8.S) --++(0,-1) to[short,-*] ++(-4,0) to[short,-*] ++(-4,0) to[short] ++(-4,0) --++(0,1) (M4.S) --++ (0,-1) (M6.S) --++(0,-1);
+ \draw (M7.S) to[short,-*] ++(-4,0) to[short,-*] ++(-4,0) to[short,-*] ++(-4,0) to[short,-o] ++(-1,0) node[left]{$V\subb{SS}$};
+ \draw (M3.S) ++ (0,-1) to[short,*-] ++(0,-1) node[nmos,anchor=D] (M9) {} (M9.S) to[short, -o] ++ (0,-.1) node[below] {$V\subb{ref}$};
+ \draw (M5.S) ++ (0,-1) to[short,*-] ++(0,-1) node[nmos,anchor=D, xscale=-1] (M10) {M10} (M10.S) to[short, -o] ++(0,-.1) node[below] {$V\subb{in}$};
+ \draw (0,0) to[short,-*] ++(4,0) to[short,-*] ++(4,0) to[short,-*] ++(4,0) to[short,-o] ++(8,0) coordinate (en) node[right]{$V\subb{out}$};
+ \draw (en) ++(-1,0) to[short, *-] ++(0,-2) node[nmos, anchor=D] (M11) {} (M11.S) to[short,-o] ++(0,-1) node[below] {$V\subb{cm}$};
+
+ \draw (M1.G) node[right] {$\overline{\text{b2}}$};
+ \draw (M3.G) node[right] {$\overline{\text{b1}}$};
+ \draw (M5.G) node[right] {$\overline{\text{b0}}$};
+ \draw (M2.G) node[right] {b2};
+ \draw (M4.G) node[right] {b1};
+ \draw (M6.G) node[right] {b0};
+ \draw (M7.G) node[right] {SW\_ref};
+ \draw (M8.G) node[right] {SW\_in};
+ \draw (M9.G) node[left] {SW\_ref};
+ \draw (M10.G) node[right] {SW\_in};
+ \draw (M11.G) node[left] {SW\_in};
+\end{tikzpicture}
