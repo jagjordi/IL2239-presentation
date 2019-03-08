@@ -25,6 +25,7 @@
    tick style={draw=none}, ytick=\empty, xtick=\empty,
    ylabel=CLK, ylabel style={rotate=-90},
   ]
+
   \addplot [thick] table[x=clkX, y=clkY, col sep=comma] {./data/m3_matlab_clk.csv};
  \end{axis}
  \begin{axis}[

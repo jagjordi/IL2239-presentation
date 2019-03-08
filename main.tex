@@ -53,12 +53,12 @@
   \begin{itemize}
    \item Comparator clock frequency: \SI{100}{\MHz}
    \item SNDR \textgreater\ 28 dB and SFDR \textgreater\ 37 dB
-   \item Technology: 150 nm CMOS
+   \item Technology: \SI{150}{\nm} CMOS
    \item Supply voltage: 1.8 V
    \item Input amplitude ($V\subb{in}$): \SI{0.5}{\volt_{pp}}
    \item Input common-mode voltage: $0 \leq V\subb{in,cm} \leq 1.8$ V
    \item Voltage reference: $V\subb{ref} \leq 1.8$ V
-   \item Switching enegy below 30 pJ for $V\subb{in}=300$ mV
+   \item Switching energy below \SI{30}{\pico\joule} for $V\subb{in}=\SI{300}{\mV}$
   \end{itemize}
  \end{frame}
  
@@ -353,19 +353,24 @@ end
   \centering
   \begin{tabular}[]{cc}
    \toprule
-   Sample rate & \SI{14.29}{\MHz}\\
-   ENOB & \num{4.78}\\
-   SNDR & \SI{30.55}{dB}\\
-   SFDR & \SI{38.16}{dB}\\
-   THD & \SI{1.44}{\percent}\\
-   %INL & \alert{\SI{10.22}{\mV}}\\
-   %DNL & \alert{\SI{8.32}{\mV}}\\
+   Sample rate      & \SI{14.29}{\MHz}\\
+   Resolution       & 5 bits\\
+   Full scale       & \SI{500}{\mV}\\
+   $V\subb{ref}$    & \SI{500}{\mV}\\
+   $V\subb{cm}$     & \SI{250}{\mV}\\
+   $V\subb{LSB}$    & \SI{15.63}{\mV}\\\midrule
+   ENOB             & \num{4.78}\\
+   SNDR             & \SI{30.55}{dB}\\
+   SFDR             & \SI{38.16}{dB}\\
+   THD              & \SI{1.44}{\percent}\\
+   INL              & \alert{\SI{10.22}{\mV}}\\
+   DNL              & \alert{\SI{8.32}{\mV}}\\
    Energy per cycle & \SI{4.02}{\pico\joule}\\\bottomrule
   \end{tabular}
  \end{frame}
  \section{Conclusions}
  \begin{frame}{Conclusions}
-  We were able to
+  We were able to:\vspace*{2em}
   \begin{itemize}
    \item Work on a state-of-the-art ADC topology
    \item<2-> Learn behavioral modeling techniques
@@ -376,8 +381,13 @@ end
 
  \section{References}
  \begin{frame}{References}
-  \nocite{*}
-  \bibliographystyle{amsalpha}
-  \bibliography{references}
+  \begin{thebibliography}{9}
+   \setbeamertemplate{bibliography item} [article]
+   \bibitem{C} A. Rusu, {\textit{IL2238 \& IL2239 Lecture Slides}}, KTH 2018.
+   \bibitem{D} N. Ivanisevic, P. Chaourani, M. Waqar and D. I. Albertsson, \textit{{Course Tutorials}}, KTH 2018.
+   \setbeamertemplate{bibliography item} [book]
+   \bibitem{A} T.C. Carusone, D. Johns and K. Martin, {\textit{Analog Integrated Circuit Design}}, Wiley 2011.
+   \bibitem{B} C. Saint and J. Saing, {\textit{IC Mask Design: Essential Layout Techniques}}, McGraw-Hill Professional Engineering 2002.
+  \end{thebibliography}
  \end{frame}
 \end{document} 
