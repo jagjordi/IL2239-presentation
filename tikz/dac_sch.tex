@@ -15,7 +15,7 @@
  \draw (M8.S) --++(0,-1) to[short,-*] ++(-4,0) to[short,-*] ++(-4,0) to[short] ++(-4,0) --++(0,1) (M4.S) --++ (0,-1) (M6.S) --++(0,-1);
  \draw (M7.S) to[short,-*] ++(-4,0) to[short,-*] ++(-4,0) to[short,-*] ++(-4,0) to[short,-o] ++(-1,0) node[left]{$V\subb{SS}$};
  \draw (M3.S) ++ (0,-1) to[short,*-] ++(0,-1) node[nmos,anchor=D] (M9) {} (M9.S) to[short, -o] ++ (0,-.1) node[below] {$V\subb{ref}$};
- \draw (M5.S) ++ (0,-1) to[short,*-] ++(0,-1) node[nmos,anchor=D, xscale=-1] (M10) {M10} (M10.S) to[short, -o] ++(0,-.1) node[below] {$V\subb{in}$};
+ \draw (M5.S) ++ (0,-1) to[short,*-] ++(0,-1) node[nmos,anchor=D, xscale=-1] (M10) {} (M10.S) to[short, -o] ++(0,-.1) node[below] {$V\subb{in}$};
  \draw (0,0) to[short,-*] ++(4,0) to[short,-*] ++(4,0) to[short,-*] ++(4,0) to[short,-o] ++(8,0) coordinate (en) node[right]{$V\subb{out}$};
  \draw (en) ++(-1,0) to[short, *-] ++(0,-2) node[nmos, anchor=D] (M11) {} (M11.S) to[short,-o] ++(0,-1) node[below] {$V\subb{cm}$};
 

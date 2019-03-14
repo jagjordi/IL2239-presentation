@@ -342,9 +342,10 @@ end
 
  \subsection{Spectrum}
  \begin{frame}{Simulations III}{Spectrum}
-  \centering
-  \includegraphics[width=\textwidth]{img/fft}
-  Input frequency: \SI{1.3}{\MHz}
+  \begin{center}
+   \tikzsetnextfilename{spectrum}
+   \input{tikz/spectrum}
+  \end{center}
  \end{frame}
  \AtBeginSection[]{}
  
@@ -388,6 +389,7 @@ end
    \setbeamertemplate{bibliography item} [book]
    \bibitem{A} T.C. Carusone, D. Johns and K. Martin, {\textit{Analog Integrated Circuit Design}}, Wiley 2011.
    \bibitem{B} C. Saint and J. Saing, {\textit{IC Mask Design: Essential Layout Techniques}}, McGraw-Hill Professional Engineering 2002.
+   \bibitem{C} B. Razavi, \textit{Principles of Data Conversion System Design}, Wiley 1995.
   \end{thebibliography}
  \end{frame}
 \end{document} 

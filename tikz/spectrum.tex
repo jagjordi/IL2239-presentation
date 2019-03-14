@@ -1,0 +1,21 @@
+\begin{tikzpicture}
+ \begin{axis}
+  [name=en,
+   width=\textwidth,
+   height=0.7\textheight,
+   x filter/.code={\pgfmathdivide{#1}{1e6}},
+   xlabel=$f/\si{\MHz}$,
+   ylabel=\si{dB},
+   x label style={at={(axis description cs: 0.5,-0.1)},anchor=north},
+   y label style={at={(axis description cs:-0.1, 0.5)},anchor=south},
+   enlarge x limits=0,
+   ymin=-99,
+   grid=both, minor grid style=dotted, minor y tick num = 5, minor x tick num=3,
+  ]
+  \addplot[thick] table[x=X, y=Y, col sep=comma] {data/spectrum.csv};
+  \draw[latex-, red] (1.395, -18.53) to[in=180, out=45] (3.6,-25) node[right] {Input frquency: \SI{1.4}{\MHz}}; 
+  \draw[latex-, red] (2.791, -57.13) to[in=180, out=90] (3.6,-35) node[right] {First harmonic: \SI{2.8}{\MHz}}; 
+  \draw[latex-, red] (0,-18.53) to[in=180, out=0] (0.6,-25) node[right] {DC};%($V\subb{cm}$)};
+ \end{axis}
+ \draw (en.south west) ++(0,-1.5) node[right] {$V\subb{in},V\subb{cm} = \SI{250}{\mV}\rightarrow\SI{-12.7}{dB}$};
+\end{tikzpicture}
