@@ -5,11 +5,11 @@
 \usepackage[utf8]{inputenc}
 \usepackage[european, arrowmos]{circuitikz}
 \usepackage{tikz}
- \usetikzlibrary{shapes, calc, intersections, positioning, external}
- \tikzexternalize[prefix=img/extern/]
+\usetikzlibrary{shapes, calc, intersections, positioning, external}
+\tikzexternalize[prefix=img/extern/]
 \usepackage{pgfplots}
- \pgfplotsset{compat=1.15}
- \usepgfplotslibrary{groupplots,fillbetween}
+\pgfplotsset{compat=1.15}
+\usepgfplotslibrary{groupplots,fillbetween}
 \usepackage{tikz-timing}
 \usepackage{siunitx}
 \usepackage{amsmath}
@@ -25,10 +25,10 @@
 \renewcommand*{\j}{\ensuremath{{\mathrm{j}}}}
 
 \addtobeamertemplate{navigation symbols}{}{%
- \usebeamerfont{footline}%
- \usebeamercolor[fg]{footline}%
- \hspace{1em}%
- \raisebox{1.2pt}[0pt][0pt]{\insertframenumber/\inserttotalframenumber}
+  \usebeamerfont{footline}%
+    \usebeamercolor[fg]{footline}%
+    \hspace{1em}%
+    \raisebox{1.2pt}[0pt][0pt]{\insertframenumber/\inserttotalframenumber}
 }
 
 \title{IL2239 - Course Project}
@@ -37,359 +37,411 @@
 \date{March of 2019}
 
 \begin{document}
- \section*{}
- \begin{frame}[plain, t]
-  \titlepage
- \end{frame}
- 
- \begin{frame}{Outline}
-  \begin{multicols}{2}
-   \tableofcontents
-  \end{multicols}
- \end{frame}
- \section{Project Description}
- \begin{frame}{Project Description}
-  Design of a single-ended SAR ADC with the following specifications.
-  \begin{itemize}
-   \item Comparator clock frequency: \SI{100}{\MHz}
-   \item SNDR \textgreater\ 28 dB and SFDR \textgreater\ 37 dB
-   \item Technology: \SI{150}{\nm} CMOS
-   \item Supply voltage: 1.8 V
-   \item Input amplitude ($V\subb{in}$): \SI{0.5}{\volt_{pp}}
-   \item Input common-mode voltage: $0 \leq V\subb{in,cm} \leq 1.8$ V
-   \item Voltage reference: $V\subb{ref} \leq 1.8$ V
-   \item Switching energy below \SI{30}{\pico\joule} for $V\subb{in}=\SI{300}{\mV}$
-  \end{itemize}
- \end{frame}
- 
- \section{Roles and Responsibilities}
- \begin{frame}{Roles and Responsibilities}
-  \begin{columns}
-   \begin{column}{0.5\textwidth}
+  \section*{}
+  \begin{frame}[plain, t]
+    \titlepage
+  \end{frame}
+
+  \begin{frame}
+    \frametitle{Outline}
+    \begin{multicols}{2}
+    \tableofcontents
+    \end{multicols}
+  \end{frame}
+
+  \section{Project Description}
+  \begin{frame}
+    \frametitle{Project Description}
+    Design of a single-ended SAR ADC with the following specifications.
+    \begin{itemize}
+      \item Comparator clock frequency: \SI{100}{\MHz}
+      \item SNDR \textgreater\ 28 dB and SFDR \textgreater\ 37 dB
+      \item Technology: \SI{150}{\nm} CMOS
+      \item Supply voltage: 1.8 V
+      \item Input amplitude ($V\subb{in}$): \SI{0.5}{\volt_{pp}}
+      \item Input common-mode voltage: $0 \leq V\subb{in,cm} \leq 1.8$ V
+      \item Voltage reference: $V\subb{ref} \leq 1.8$ V
+      \item Switching energy below \SI{30}{\pico\joule} for $V\subb{in}=\SI{300}{\mV}$
+    \end{itemize}
+  \end{frame}
+
+  \section{Roles and Responsibilities}
+  \begin{frame}
+    \frametitle{Roles and Responsibilities}
+    \begin{columns}
+    \begin{column}{0.5\textwidth}
     Jordi:
     \begin{itemize}
-     \item Comparator
-     \item Successive Approximation Register
-     \item Comparator Layout
+    \item Comparator
+    \item Successive Approximation Register
+    \item Comparator Layout
     \end{itemize}
-   \end{column}
-   \begin{column}{0.5\textwidth}
+    \end{column}
+    \begin{column}{0.5\textwidth}
     Björn:
     \begin{itemize}
-     \item Digital-to-Analog Converter
-     \item Sample \& Hold
-     \item DAC Layout
+    \item Digital-to-Analog Converter
+    \item Sample \& Hold
+    \item DAC Layout
     \end{itemize}
-   \end{column}
-  \end{columns}
- \end{frame}
- \section{Design Flow}
- \begin{frame}{Design Flow}
-  We used a top-down design approach:
-  \vspace{2em}
-  \begin{enumerate}
-   \item System-level design
-   \item Behavioral modeling using Verilog-AMS
-   \item Transistor level modeling
-   \item Layout
-  \end{enumerate}
-  \vspace{2em}
-  \visible<2->{Co-simulations where also used to test individual blocks functionality}
-%  \begin{center}
-%   \resizebox{\textwidth}{!}{\input{tikz/V.tex}}
-%  \end{center}
- \end{frame}
- 
- \AtBeginSection[]{
-  \begin{frame}{Outline}
-   \begin{multicols}{2}
-    \tableofcontents[
-     sectionstyle=show/shaded,
-     subsectionstyle=show/show/shaded,
-     subsubsectionstyle=show/show/show/shaded
-    ]
-   \end{multicols}
+    \end{column}
+    \end{columns}
   \end{frame}
- }
 
- \section{System-level Design}
- \subsection{Problem Statement}
- \begin{frame}
-  {System-level Design I}{Problem Statement}
-  The basic block diagram of a SAR ADC looks as follows
+  \section{Design Flow}
+    \begin{frame}
+    \frametitle{Design Flow}
+    We used a top-down design approach:
+    \vspace{2em}
+    \begin{enumerate}
+      \item System-level design
+      \item Behavioral modeling using Verilog-AMS
+      \item Transistor level modeling
+      \item Layout
+    \end{enumerate}
+    \vspace{2em}
+    \visible<2->{Co-simulations where also used to test individual blocks functionality}
+    %  \begin{center}
+    %   \resizebox{\textwidth}{!}{\input{tikz/V.tex}}
+    %  \end{center}
+  \end{frame}
 
-  \vspace*{2em}
-  \tikzsetnextfilename{sar}
-  \resizebox{\textwidth}{!}{\input{tikz/sar}}
- \end{frame}
- \subsection{Proposed Solution}
- \begin{frame}
-  {System-level Design II}{Proposed Solution}
-  The following topology was used:
-  \vspace{1em}
-  \begin{itemize}
-   \item Comparator: \alert{Strong ARM Latch}
+  \AtBeginSection[]{
+    \begin{frame}
+      \frametitle{Outline}
+      \begin{multicols}{2}
+        \tableofcontents[
+        sectionstyle=show/shaded,
+        subsectionstyle=show/show/shaded,
+        subsubsectionstyle=show/show/show/shaded
+        ]
+      \end{multicols}
+    \end{frame}
+  }
+
+  \section{System-level Design}
+  \subsection{Problem Statement}
+  \begin{frame}
+    \frametitle{System-level Design I}
+    \framesubtitle{Problem Statement}
+    The basic block diagram of a SAR ADC looks as follows
+
+    \vspace*{2em}
+    \tikzsetnextfilename{sar}
+    \resizebox{\textwidth}{!}{\input{tikz/sar}}
+  \end{frame}
+
+  \subsection{Proposed Solution}
+  \begin{frame}
+    \frametitle{System-level Design II}
+    \framesubtitle{Proposed Solution}
+    The following topology was used:
+    \vspace{1em}
     \begin{itemize}
-     \item[--] Reduced power consumption 
-     \item[--] Fast operation
-     \item[--] Small area
+      \item Comparator: \alert{Strong ARM Latch}
+      \begin{itemize}
+        \item[--] Reduced power consumption 
+        \item[--] Fast operation
+        \item[--] Small area
+      \end{itemize}
+      \item<2-> DAC: \alert{Charge redistribution weighted capacitors}
+      \begin{itemize}
+        \item[--] Suitable for CMOS technology
+        \item[--] Integrates the Sample \& Hold
+      \end{itemize}
+      \item<3-> SAR: \alert{Successive Approximation Register}
+      \begin{itemize}
+        \item[--] Integrates controls for Sample \& Hold
+        \item[--] Implemented as 7 state FSM
+        \item[--] Verilog model
+      \end{itemize}
     \end{itemize}
-   \item<2-> DAC: \alert{Charge redistribution weighted capacitors}
-    \begin{itemize}
-     \item[--] Suitable for CMOS technology
-     \item[--] Integrates the Sample \& Hold
-    \end{itemize}
-   \item<3-> SAR: \alert{Successive Approximation Register}
-    \begin{itemize}
-     \item[--] Integrates controls for Sample \& Hold
-     \item[--] Implemented as 7 state FSM
-     \item[--] Verilog model
-    \end{itemize}
-  \end{itemize}
- \end{frame}
- \subsection{Behavioral Modeling}
- \subsubsection{Comparator}
- \begin{frame}[fragile]{System-level Design III}{Behavioral Modeling I}
-  Comparator modeling:\vspace{-1ex}
-  \begin{minted}%{verilog}
-   [
+  \end{frame}
+  \subsection{Behavioral Modeling}
+  \subsubsection{Comparator}
+
+  \begin{frame}[fragile]
+    \frametitle{System-level Design III}
+    \framesubtitle{Behavioral Modeling I}
+    Comparator modeling:\vspace{-1ex}
+    \begin{minted}%{verilog}
+    [
     frame=lines,
     framesep=2mm,
     baselinestretch=1.2,
     fontsize=\footnotesize,
     linenos
-   ]{verilog}
-always @(posedge CLK) begin
+    ]{verilog}
+    always @(posedge CLK) begin
     #5
     outn = 0; outp = 0;
-end
-always @(negedge CLK) begin
-  if(V(inp) > V(inn)) begin
+    end
+    always @(negedge CLK) begin
+    if(V(inp) > V(inn)) begin
     #50
     outp = 1; outn = 0;
-  end else begin
+    end else begin
     #50
     outp = 0; outn = 1;
-  end
-end
-  \end{minted}
-  Some delay was added to the behavioral model.
- \end{frame}
+    end
+    end
+    \end{minted}
+    Some delay was added to the behavioral model.
+  \end{frame}
 
- \subsubsection{Digital-to-Analog Converter}
- \begin{frame}[fragile]{System-level Design III}{Behavioral Modeling II}
+  \subsubsection{Digital-to-Analog Converter}
+  \begin{frame}[fragile]
+  \frametitle{System-level Design III}
+  \framesubtitle{Behavioral Modeling II}
   Digital-to-Analog Converter modeling:
-  \begin{minted}%{verilog}
-   [
+    \begin{minted}%{verilog}
+    [
     frame=lines,
     framesep=2mm,
     baselinestretch=1.2,
     fontsize=\footnotesize,
     linenos
-   ]{verilog}
-analog begin
-  always @(posedge CLK) begin
+    ]{verilog}
+    analog begin
+    always @(posedge CLK) begin
     for(i=0, i < 5, i++) begin
-      result += input[5-i] * Vref/(1<<i);
+    result += input[5-i] * Vref/(1<<i);
     end
     V(out) <+ transition(result, 1ns, 0.1ns, 0.1ns)
-  end
-end
-  \end{minted}
- \end{frame}
- \subsubsection{Successive Approximation Register}
- \begin{frame}{System-level Design III}{Behavioral Modeling III}
-  SAR algorithm: binary search\hspace*{1em}
-  \begin{columns}
-   \begin{column}{0.5\textwidth}
+    end
+    end
+    \end{minted}
+  \end{frame}
+
+  \subsubsection{Successive Approximation Register}
+  \begin{frame}
+    \frametitle{System-level Design III}
+    \framesubtitle{Behavioral Modeling III}
+    SAR algorithm: binary search\hspace*{1em}
+    \begin{columns}
+    \begin{column}{0.5\textwidth}
     \tikzexternaldisable
     \tikzsetnextfilename{sar_algorithm}
     \resizebox{!}{0.7\textheight}{\input{tikz/sar_algorith}}
-   \end{column}
-   \begin{column}{0.5\textwidth}
+    \end{column}
+    \begin{column}{0.5\textwidth}
     Assume $V\subb{in}=\SI{0.7}{\V}$, $V\subb{ref}=\SI{1}{\V}$ and 4 bits\vspace{1em}
     \begin{enumerate}
-     \item<2-> $V\subb{in} \overset{?}{\ge} \frac{V\subb{ref}}{2}$ {\color{green}\checkmark}
-     \item<3-> $V\subb{in} \overset{?}{\ge} \frac{3V\subb{ref}}{4}$ {\color{red}\text{\sffamily X}}
-     \item<4-> $V\subb{in} \overset{?}{\ge} \frac{5V\subb{ref}}{8}$ {\color{green}\checkmark}
-     \item<5-> $V\subb{in} \overset{?}{\ge} \frac{11V\subb{ref}}{16}$ {\color{green}\checkmark}
+    \item<2-> $V\subb{in} \overset{?}{\ge} \frac{V\subb{ref}}{2}$ {\color{green}\checkmark}
+    \item<3-> $V\subb{in} \overset{?}{\ge} \frac{3V\subb{ref}}{4}$ {\color{red}\text{\sffamily X}}
+    \item<4-> $V\subb{in} \overset{?}{\ge} \frac{5V\subb{ref}}{8}$ {\color{green}\checkmark}
+    \item<5-> $V\subb{in} \overset{?}{\ge} \frac{11V\subb{ref}}{16}$ {\color{green}\checkmark}
     \end{enumerate}
     \vspace{2em}
     \visible<6->{Out = 0b1011 ($\frac{11V\subb{ref}}{16}$)}
 
-   \end{column}
-  \end{columns}
- \end{frame}
- \section{Transistor-level Design}
- \subsection{Comparator}
- \begin{frame}{Transistor-level Design I}{Comparator}
-  Strong ARM Latch topology\par\vspace{1em}
-  \resizebox{\textwidth}{!}{\centering\input{tikz/comp_sch}}
-  %\includegraphics[width=0.9\textwidth]{img/comp_sch}
- \end{frame}
- \subsection{Digital-to-Analog Converter}
- \begin{frame}{Transistor-level Design II}{Digital-to-Analog Converter I}
-  Example with 3 bit\vspace*{1em}
-  \begin{center}
-   \resizebox{\textwidth}{!}{\input{tikz/dac_sch}}
-  %\makebox[\textwidth][c]{\includegraphics[width=1.1\textwidth]{img/dac_sch}}
-  \end{center}
- \end{frame}
+    \end{column}
+    \end{columns}
+  \end{frame}
 
- \begin{frame}{Transistor-level Design II}{Digital-to-Analog Converter II}
-  Sample phase:
-  \vspace*{1em}
-  \tikzsetnextfilename{dac_sample}
-  \begin{center}
-   \input{tikz/dac_sample}
-  \end{center}
- \end{frame}
+  \section{Transistor-level Design}
+  \subsection{Comparator}
+  \begin{frame}
+    \frametitle{Transistor-level Design I}
+    \framesubtitle{Comparator}
+    Strong ARM Latch topology\par\vspace{1em}
+    \resizebox{\textwidth}{!}{\centering\input{tikz/comp_sch}}
+    %\includegraphics[width=0.9\textwidth]{img/comp_sch}
+  \end{frame}
 
- \begin{frame}{Transistor-level Design II}{Digital-to-Analog Converter II}
-  Cycling phase:\hfill Input word: \alert{0b100}
-  \vspace*{1em}
-  \tikzsetnextfilename{dac_cycling}
-  \begin{center}
-   \input{tikz/dac_cycling}
-  \end{center}
- \end{frame}
+  \subsection{Digital-to-Analog Converter}
+  \begin{frame}
+    \frametitle{Transistor-level Design II}
+    \framesubtitle{Digital-to-Analog Converter I}
+    Example with 3 bit\vspace*{1em}
+    \begin{center}
+    \resizebox{\textwidth}{!}{\input{tikz/dac_sch}}
+    %\makebox[\textwidth][c]{\includegraphics[width=1.1\textwidth]{img/dac_sch}}
+    \end{center}
+  \end{frame}
 
- \begin{frame}{Transistor-level Design II}{Digital-to-Analog Converter II}
-  Equivalent circuit:\hfill Input word: \alert{0b100}
-  \vspace*{1em}
-  \tikzsetnextfilename{dac_equivalent}
-  \begin{center}
-   \input{tikz/dac_equivalent}
-  \end{center}
- \end{frame}
+  \begin{frame}
+    \frametitle{Transistor-level Design II}
+    \framesubtitle{Digital-to-Analog Converter II}
+    Sample phase:
+    \vspace*{1em}
+    \tikzsetnextfilename{dac_sample}
+    \begin{center}
+    \input{tikz/dac_sample}
+    \end{center}
+  \end{frame}
 
- \begin{frame}{Transistor-level Design II}{Digital-to-Analog Converter II}
-  Cycling phase:\hfill Input word: \alert{0b010}
-  \vspace*{1em}
-  \tikzsetnextfilename{dac_cycling2}
-  \begin{center}
-   \input{tikz/dac_cycling2}
-  \end{center}
- \end{frame}
+  \begin{frame}
+    \frametitle{Transistor-level Design II}
+    \framesubtitle{Digital-to-Analog Converter II}
+    Cycling phase:\hfill Input word: \alert{0b100}
+    \vspace*{1em}
+    \tikzsetnextfilename{dac_cycling}
+    \begin{center}
+    \input{tikz/dac_cycling}
+    \end{center}
+  \end{frame}
 
- \begin{frame}{Transistor-level Design II}{Digital-to-Analog Converter II}
-  Equivalent circuit:\hfill Input word: \alert{0b010}
-  \vspace*{1em}
-  \tikzsetnextfilename{dac_equivalent2}
-  \begin{center}
-   \input{tikz/dac_equivalent2}
-  \end{center}
- \end{frame}
-%\addtocontents{toc}{\newpage}
- \section{Layout}
- \subsection{Comparator}
- \begin{frame}{Layout I}{Comparator}
-  \includegraphics[width=\textwidth]{img/comparator_layout}
+  \begin{frame}
+    \frametitle{Transistor-level Design II}
+    \framesubtitle{Digital-to-Analog Converter II}
+    Equivalent circuit:\hfill Input word: \alert{0b100}
+    \vspace*{1em}
+    \tikzsetnextfilename{dac_equivalent}
+    \begin{center}
+    \input{tikz/dac_equivalent}
+    \end{center}
+  \end{frame}
 
-  \begin{columns}
-   \begin{column}{0.5\textwidth}
+  \begin{frame}
+    \frametitle{Transistor-level Design II}
+    \framesubtitle{Digital-to-Analog Converter II}
+    Cycling phase:\hfill Input word: \alert{0b010}
+    \vspace*{1em}
+    \tikzsetnextfilename{dac_cycling2}
+    \begin{center}
+    \input{tikz/dac_cycling2}
+    \end{center}
+  \end{frame}
+
+  \begin{frame}
+    \frametitle{Transistor-level Design II}
+    \framesubtitle{Digital-to-Analog Converter II}
+    Equivalent circuit:\hfill Input word: \alert{0b010}
+    \vspace*{1em}
+    \tikzsetnextfilename{dac_equivalent2}
+    \begin{center}
+    \input{tikz/dac_equivalent2}
+    \end{center}
+  \end{frame}
+
+  %\addtocontents{toc}{\newpage}
+  \section{Layout}
+  \subsection{Comparator}
+  \begin{frame}
+    \frametitle{Layout I}
+    \framesubtitle{Comparator}
+    \includegraphics[width=\textwidth]{img/comparator_layout}
+
+    \begin{columns}
+    \begin{column}{0.5\textwidth}
     \begin{itemize}
-     \item Common centroid for the differential input pair
+    \item Common centroid for the differential input pair
     \end{itemize}
-   \end{column}
-   \begin{column}{0.5\textwidth}
+    \end{column}
+    \begin{column}{0.5\textwidth}
     \begin{itemize}
-     \item<2-> Guard ring around sensitive high impedance nodes
+    \item<2-> Guard ring around sensitive high impedance nodes
     \end{itemize}
-   \end{column}
-  \end{columns}
- \end{frame}
- 
- \subsection{Digital-to-Analog Converter}
- \begin{frame}{Layout II}{Digital-to-Analog Converter I}
+    \end{column}
+    \end{columns}
+  \end{frame}
+
+  \subsection{Digital-to-Analog Converter}
+  \begin{frame}
+    \frametitle{Layout II}
+    \framesubtitle{Digital-to-Analog Converter I}
     \begin{columns}
     \begin{column}{0.40\linewidth}
     To ensure good matching we used: 
     \begin{itemize}
-        \item Common centroid technique
-        \item<2-> Base unit of half the minmum capacitance
-        \item<3-> Dummy capacitors at the edges
+    \item Common centroid technique
+    \item<2-> Base unit of half the minmum capacitance
+    \item<3-> Dummy capacitors at the edges
     \end{itemize}
     \vspace{3em}
     \end{column}
     \begin{column}{0.60\linewidth}
-        \centering
-        \tikzsetnextfilename{cap_matrix}
-        \input{tikz/cap_matrix.tex}
+    \centering
+    \tikzsetnextfilename{cap_matrix}
+    \input{tikz/cap_matrix.tex}
     \end{column}
     \end{columns}
- \end{frame}
- 
- \begin{frame}{Layout II}{Digital-to-Analog Converter II}
-     \centering
-     \includegraphics[height=.8\textheight]{img/cap_layout}
- \end{frame}
- 
- \section{Simulations}
- \subsection{Sinusoidal Stimulus}
- \begin{frame}{Simulations I}{Sinusoidal Stimulus}
-  \centering
-  \tikzsetnextfilename{sinusoidal_conversion}
-  \resizebox{!}{0.8\textheight}{\input{tikz/sinusoidal-conversion}}
- \end{frame}
+  \end{frame}
 
- \subsection{Ramp Stimulus}
- \begin{frame}{Simulations II}{Ramp Stimulus}
-  \centering
-  \tikzsetnextfilename{ramp_conversion}
-  \resizebox{!}{0.8\textheight}{\input{tikz/ramp-conversion}}
- \end{frame}
+  \begin{frame}
+    \frametitle{Layout II}
+    \framesubtitle{Digital-to-Analog Converter II}
+    \centering
+    \includegraphics[height=.8\textheight]{img/cap_layout}
+  \end{frame}
 
- \subsection{Spectrum}
- \begin{frame}{Simulations III}{Spectrum}
-  \begin{center}
-   \tikzsetnextfilename{spectrum}
-   \input{tikz/spectrum}
-  \end{center}
- \end{frame}
- \AtBeginSection[]{}
- 
- \section{Figures of Merit}
- \begin{frame}{Figures of Merit}
-  \centering
-  \begin{tabular}[]{cc}
-   \toprule
-   Sample rate      & \SI{14.29}{\MHz}\\
-   Resolution       & 5 bits\\
-   Full scale       & \SI{500}{\mV}\\
-   $V\subb{ref}$    & \SI{500}{\mV}\\
-   $V\subb{cm}$     & \SI{250}{\mV}\\
-   $V\subb{LSB}$    & \SI{15.63}{\mV}\\\midrule
-   ENOB             & \num{4.78}\\
-   SNDR             & \SI{30.55}{dB}\\
-   SFDR             & \SI{38.16}{dB}\\
-   THD              & \SI{1.44}{\percent}\\
-   INL              & \alert{\SI{10.22}{\mV}}\\
-   DNL              & \alert{\SI{8.32}{\mV}}\\
-   Energy per cycle & \SI{4.02}{\pico\joule}\\\bottomrule
-  \end{tabular}
- \end{frame}
- \section{Conclusions}
- \begin{frame}{Conclusions}
-  We were able to:\vspace*{2em}
-  \begin{itemize}
-   \item Work on a state-of-the-art ADC topology
-   \item<2-> Learn behavioral modeling techniques
-   \item<3-> Hands-on experience with charge redistribution circuits
-   \item<4-> Gained knowledge about mixed-signal design and simulations
-  \end{itemize}
- \end{frame}
+  \section{Simulations}
+  \subsection{Sinusoidal Stimulus}
+  \begin{frame}
+    \frametitle{Simulations I}
+    \framesubtitle{Sinusoidal Stimulus}
+    \centering
+    \tikzsetnextfilename{sinusoidal_conversion}
+    \resizebox{!}{0.8\textheight}{\input{tikz/sinusoidal-conversion}}
+  \end{frame}
 
- \section{References}
- \begin{frame}{References}
-  \begin{thebibliography}{9}
-   \setbeamertemplate{bibliography item} [article]
-   \bibitem{C} A. Rusu, {\textit{IL2238 \& IL2239 Lecture Slides}}, KTH 2018.
-   \bibitem{D} N. Ivanisevic, P. Chaourani, M. Waqar and D. I. Albertsson, \textit{{Course Tutorials}}, KTH 2018.
-   \setbeamertemplate{bibliography item} [book]
-   \bibitem{A} T.C. Carusone, D. Johns and K. Martin, {\textit{Analog Integrated Circuit Design}}, Wiley 2011.
-   \bibitem{B} C. Saint and J. Saing, {\textit{IC Mask Design: Essential Layout Techniques}}, McGraw-Hill Professional Engineering 2002.
-   \bibitem{C} B. Razavi, \textit{Principles of Data Conversion System Design}, Wiley 1995.
-  \end{thebibliography}
- \end{frame}
+  \subsection{Ramp Stimulus}
+  \begin{frame}
+    \frametitle{Simulations II}
+    \framesubtitle{Ramp Stimulus}
+    \centering
+    \tikzsetnextfilename{ramp_conversion}
+    \resizebox{!}{0.8\textheight}{\input{tikz/ramp-conversion}}
+  \end{frame}
+
+  \subsection{Spectrum}
+  \begin{frame}
+    \frametitle{Simulations III}
+    \framesubtitle{Spectrum}
+    \begin{center}
+    \tikzsetnextfilename{spectrum}
+    \input{tikz/spectrum}
+    \end{center}
+  \end{frame}
+
+  \AtBeginSection[]{}
+
+  \section{Figures of Merit}
+  \begin{frame}
+    \frametitle{Figures of Merit}
+    \centering
+    \begin{tabular}[]{cc}
+    \toprule
+    Sample rate      & \SI{14.29}{\MHz}\\
+    Resolution       & 5 bits\\
+    Full scale       & \SI{500}{\mV}\\
+    $V\subb{ref}$    & \SI{500}{\mV}\\
+    $V\subb{cm}$     & \SI{250}{\mV}\\
+    $V\subb{LSB}$    & \SI{15.63}{\mV}\\\midrule
+    ENOB             & \num{4.78}\\
+    SNDR             & \SI{30.55}{dB}\\
+    SFDR             & \SI{38.16}{dB}\\
+    THD              & \SI{1.44}{\percent}\\
+    INL              & \alert{\SI{10.22}{\mV}}\\
+    DNL              & \alert{\SI{8.32}{\mV}}\\
+    Energy per cycle & \SI{4.02}{\pico\joule}\\\bottomrule
+    \end{tabular}
+  \end{frame}
+
+  \section{Conclusions}
+  \begin{frame}
+    \frametitle{Conclusions}
+    We were able to:\vspace*{2em}
+    \begin{itemize}
+    \item Work on a state-of-the-art ADC topology
+    \item<2-> Learn behavioral modeling techniques
+    \item<3-> Hands-on experience with charge redistribution circuits
+    \item<4-> Gained knowledge about mixed-signal design and simulations
+    \end{itemize}
+  \end{frame}
+
+  \section{References}
+  \begin{frame}
+    \frametitle{References}
+    \begin{thebibliography}{9}
+    \setbeamertemplate{bibliography item} [article]
+    \bibitem{C} A. Rusu, {\textit{IL2238 \& IL2239 Lecture Slides}}, KTH 2018.
+    \bibitem{D} N. Ivanisevic, P. Chaourani, M. Waqar and D. I. Albertsson, \textit{{Course Tutorials}}, KTH 2018.
+    \setbeamertemplate{bibliography item} [book]
+    \bibitem{A} T.C. Carusone, D. Johns and K. Martin, {\textit{Analog Integrated Circuit Design}}, Wiley 2011.
+    \bibitem{B} C. Saint and J. Saing, {\textit{IC Mask Design: Essential Layout Techniques}}, McGraw-Hill Professional Engineering 2002.
+    \bibitem{C} B. Razavi, \textit{Principles of Data Conversion System Design}, Wiley 1995.
+    \end{thebibliography}
+  \end{frame}
 \end{document} 
